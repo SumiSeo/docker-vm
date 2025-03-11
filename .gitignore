@@ -1,2 +1,8 @@
 .env
 .env.local
+srcs/app_data/
+srcs/db_data/
+srcs/nginx/nginx_data/
+web/
+app_data/
+db_data/

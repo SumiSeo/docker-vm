@@ -1,8 +1,7 @@
-# base command
-FROM node:alpine
+FROM debian:latest
 
-# my information 
-COPY . /app
-WORKDIR /
-# this command will be executed after container build
-CMD ["node", "/app.js"]
+RUN apt-get -y update && apt-get -y upgrade && apt-get -y install nginx && apt-get -y install nginx openssl vim 
+
+COPY default /etc/nginx/sites-available/.
+
+CMD ["nginx", "-g", "daemon off;"]

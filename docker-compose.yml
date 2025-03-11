@@ -1,0 +1,53 @@
+
+services:
+  mariadb:
+    build:
+      context: ./srcs/mariadb
+    image: mariadb
+    restart: always
+    expose:
+      - "3306"
+    networks:
+      - intra
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - ./web:/var/lib/mysql
+
+  wordpress:
+    build:
+      context: ./srcs/wordpress
+    image: wordpress
+    restart: always
+    volumes:
+      - ./web:/var/www/html
+    expose:
+      - "9000"
+    networks:
+      - intra
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+
+  nginx:
+    build:
+      context: ./srcs/nginx
+    image: nginx
+    restart: always
+    volumes:
+      - ./web:/var/www/html
+    networks:
+      - intra
+    tty: true
+    ports:
+      - "8080:80"
+
+networks:
+  intra:
+    driver: bridge

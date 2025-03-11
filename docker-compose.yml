@@ -38,6 +38,7 @@ services:
   nginx:
     build:
       context: ./srcs/nginx
+    container_name: nginx
     image: nginx
     restart: always
     volumes:
